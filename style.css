@@ -1,0 +1,425 @@
+/* ==========================================================================
+   Seonpyo Kim — personal homepage
+   Plain static CSS. No build step, no framework.
+
+   The page is set like an arXiv abstract: a serif text column with a
+   right-flush monospace metadata rail. Its only ornament is a
+   Peierls-dimerized atomic chain (the Su-Schrieffer-Heeger chain), whose
+   lattice constant a = 8px is also the base of the spacing scale below.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Tokens. Light lives on bare :root; the dark block remaps colour only.
+   -------------------------------------------------------------------------- */
+:root{
+  color-scheme: light dark;
+
+  /* colour — contrast ratios are against --paper */
+  --paper:       #FAF9F5;   /* warm preprint stock; never pure #fff        */
+  --paper-2:     #F2F0E9;   /* photo plate ground, notice block            */
+  --ink:         #191817;   /* body text                    16.83:1  AAA   */
+  --ink-2:       #55524C;   /* labels, authors, dates        7.39:1  AAA   */
+  --rule:        #DDD9D0;   /* decorative hairline only      1.34:1        */
+  --rule-2:      #8E8879;   /* structural lines              3.35:1  AA-UI */
+  --accent:      #8E2B22;   /* oxide red                     7.91:1  AAA   */
+  --accent-wash: #F0E4E1;   /* ::selection and :target ground              */
+
+  /* spacing — 4px root; --s2 is a, the lattice constant */
+  --s1: .25rem;   /*   4px */
+  --s2: .5rem;    /*   8px  = a   */
+  --s3: .75rem;   /*  12px */
+  --s4: 1rem;     /*  16px  = 2a  */
+  --s5: 1.5rem;   /*  24px */
+  --s6: 2rem;     /*  32px */
+  --s7: 3rem;     /*  48px */
+  --s8: 4.5rem;   /*  72px */
+
+  /* radii — the page is square; these exist so nothing gets invented */
+  --r-0: 0;       /* plate, notice, entries: everything */
+  --r-1: 1px;     /* focus ring only */
+  --r-2: 2px;     /* skip-link chip only */
+
+  /* layout */
+  --rail-w:   9rem;    /* 144px, equals the photo plate viewBox width */
+  --rail-gap: 2rem;    /*  32px */
+  --measure:  39rem;   /* 624px, about 72 characters at 17px */
+  --wrap:     50rem;   /* 800px = 9 + 2 + 39 */
+
+  /* type scale */
+  --fs-mono-xs: .6875rem;  /* 11px  rail labels, year, colophon, figcaption */
+  --fs-mono-sm: .8125rem;  /* 13px  notice meta, entry notes               */
+  --fs-mono:    .875rem;   /* 14px  standfirst, arXiv ids, link values     */
+  --fs-sm:      .9375rem;  /* 15px  authors, journal refs, notice prose    */
+  --fs-base:    1.0625rem; /* 17px  body prose, entry titles               */
+  --fs-lede:    1.1875rem; /* 19px  first bio paragraph                    */
+  --fs-h1:      2.125rem;  /* 34px  the name; nothing is larger            */
+
+  --lh-tight: 1.14;
+  --lh-snug:  1.36;
+  --lh-mono:  1.5;
+  --lh-body:  1.62;
+
+  --track-caps: .11em;
+
+  --serif: "Source Serif 4","Source Serif Pro",Charter,"Charis SIL",
+           "Bitstream Charter","Iowan Old Style","Palatino Linotype",
+           Palatino,"Book Antiqua",Georgia,serif;
+  --mono:  "IBM Plex Mono",ui-monospace,SFMono-Regular,"SF Mono",Menlo,
+           Consolas,"DejaVu Sans Mono","Liberation Mono",monospace;
+  --hangul:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",
+           "Nanum Gothic",sans-serif;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:       #1A1917;
+    --paper-2:     #232120;
+    --ink:         #E9E5DB;   /* 13.97:1  AAA */
+    --ink-2:       #A29B8D;   /*  6.37:1  AA+ */
+    --rule:        #33302B;
+    --rule-2:      #736D60;   /*  3.42:1      */
+    --accent:      #DE7F71;   /*  6.17:1  AA+ */
+    --accent-wash: #33211D;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Base
+   -------------------------------------------------------------------------- */
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:100%;-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font:400 var(--fs-base)/var(--lh-body) var(--serif);
+  font-optical-sizing:auto;
+  font-kerning:normal;
+  text-rendering:optimizeLegibility;
+}
+
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2rem)}
+
+/* --------------------------------------------------------------------------
+   3. The rail grid. Any child of .row lands in the content column; only
+      .rail moves left. There is no .col class to forget.
+      .rail must come FIRST in DOM order inside every .row.
+   -------------------------------------------------------------------------- */
+.row{
+  display:grid;
+  grid-template-columns:var(--rail-w) var(--rail-gap) minmax(0,1fr);
+  align-items:start;
+}
+.row > *{grid-column:3;max-width:var(--measure);min-width:0}
+.row > .rail{
+  grid-column:1;
+  max-width:none;
+  text-align:right;   /* the rail's right edge and the content column's left
+                         edge form one unbroken vertical axis. Load-bearing. */
+  padding-top:.16rem; /* optical: 11px mono cap-top to 17px serif cap-top */
+}
+.row + .row{margin-top:var(--s7)}
+.titleblock{padding-top:var(--s8)}
+
+/* --------------------------------------------------------------------------
+   4. Typography
+   -------------------------------------------------------------------------- */
+h1,h2,h3{font-weight:inherit;margin:0}
+
+.name{
+  font:600 var(--fs-h1)/var(--lh-tight) var(--serif);
+  letter-spacing:-.012em;
+  color:var(--ink);
+}
+.name .ko{
+  font-family:var(--hangul);font-size:.5em;font-weight:400;
+  color:var(--ink-2);letter-spacing:0;margin-left:.5em;
+}
+
+.standfirst{
+  font:400 var(--fs-mono)/1.6 var(--mono);
+  letter-spacing:.01em;
+  color:var(--ink);
+  margin:var(--s4) 0 0;
+}
+
+/* rail labels: the largest a section heading gets. Nothing competes with
+   the name; the whole page spans a 2:1 type range. */
+.label{
+  font:500 var(--fs-mono-xs)/var(--lh-mono) var(--mono);
+  letter-spacing:var(--track-caps);
+  text-transform:uppercase;
+  color:var(--ink-2);
+}
+
+.prose p{margin:0}
+.prose p + p{text-indent:1.6em}   /* REVTeX continuation indent, .prose only */
+.prose{hyphens:auto}
+.lede{font-size:var(--fs-lede)}
+
+.subjects{margin:0;font-size:var(--fs-base)}
+.cat{font:400 var(--fs-mono)/1 var(--mono);color:var(--ink-2)}
+
+.dim{color:var(--ink-2)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+time{font-variant-numeric:tabular-nums}
+
+/* --------------------------------------------------------------------------
+   5. Masthead. A journal running head, not an app bar. Never sticky.
+   -------------------------------------------------------------------------- */
+.masthead{border-bottom:1px solid var(--rule-2)}
+.masthead__in{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:var(--s4);padding-block:var(--s3);
+}
+.wordmark{
+  display:inline-flex;align-items:center;gap:var(--s3);
+  font:500 var(--fs-mono-xs)/1 var(--mono);
+  letter-spacing:var(--track-caps);text-transform:uppercase;
+  color:var(--ink);text-decoration:none;
+}
+.wordmark .mark{display:block;color:var(--rule-2);flex:none}
+.masthead nav{
+  font:500 var(--fs-mono-xs)/1 var(--mono);
+  letter-spacing:var(--track-caps);text-transform:uppercase;
+  white-space:nowrap;
+}
+.masthead nav a{text-decoration:none;color:var(--ink-2)}
+.masthead nav a:hover{color:var(--accent)}
+.masthead nav a[aria-current="page"]{
+  color:var(--ink);
+  text-decoration:underline;
+  text-decoration-color:var(--accent);
+  text-decoration-thickness:2px;
+  text-underline-offset:.4em;
+}
+.masthead .sep{color:var(--rule-2);margin-inline:var(--s2)}
+
+/* --------------------------------------------------------------------------
+   6. Photo plate. Correct both empty and full, with zero layout shift.
+      To add the photo: drop portrait.jpg at the repo root. No edit needed.
+   -------------------------------------------------------------------------- */
+.plate-fig{margin:0}
+.plate{
+  position:relative;
+  width:var(--rail-w);          /* 144px, maps 1:1 onto the SVG viewBox */
+  aspect-ratio:4/5;             /* 144x180 */
+  background:var(--paper-2);
+  border:1px solid var(--rule-2);  /* present in BOTH states: the frame is what
+                                      makes the empty plate read as intentional */
+  border-radius:var(--r-0);        /* sharp corners; a rounded avatar reads
+                                      as a startup team page */
+  overflow:hidden;
+}
+.plate__lattice{
+  position:absolute;inset:0;
+  width:100%;height:100%;display:block;
+  color:var(--rule-2);
+}
+.plate__lattice .site-b{fill:var(--paper-2)}
+.plate img{
+  position:relative;z-index:1;
+  width:100%;height:100%;display:block;
+  object-fit:cover;object-position:50% 30%;
+}
+.plate-fig figcaption{
+  font:400 var(--fs-mono-xs)/1.5 var(--mono);
+  color:var(--ink-2);margin-top:var(--s2);
+  text-align:right;max-width:var(--rail-w);margin-left:auto;
+}
+
+/* --------------------------------------------------------------------------
+   7. Links list. A definition list, not an icon row: the link text is the
+      bare identifier, so it is self-documenting, prints correctly, and
+      needs no icon font, no CDN and no aria-label.
+   -------------------------------------------------------------------------- */
+dl.links{
+  display:grid;grid-template-columns:5.5rem minmax(0,1fr);
+  row-gap:var(--s2);column-gap:var(--s4);margin:0;
+}
+dl.links dt{
+  font:500 var(--fs-mono-xs)/1.9 var(--mono);
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+}
+dl.links dd{
+  margin:0;font:400 var(--fs-mono)/1.6 var(--mono);
+  overflow-wrap:anywhere;
+}
+
+/* --------------------------------------------------------------------------
+   8. Papers list
+   -------------------------------------------------------------------------- */
+ol.biblio{list-style:none;margin:0;padding:0}  /* semantic list, no visible
+    numbers: copies cleanly into an email, which is how physicists actually
+    move citation lists around */
+.entry{position:relative}
+.entry + .entry{margin-top:var(--s5)}
+.entry p{margin:0}
+.entry-title{font:600 var(--fs-base)/var(--lh-snug) var(--serif);color:var(--ink)}
+.entry .entry-authors,
+.entry .entry-ref{font:400 var(--fs-sm)/1.55 var(--serif);color:var(--ink-2);margin-top:var(--s1)}
+.me{font-weight:600;color:var(--ink)}   /* self-marking in value alone; colour
+                                           is never the only signal */
+.eprint{font:400 var(--fs-mono)/1.5 var(--mono);font-variant-numeric:tabular-nums}
+.entry .entry-note{font:400 var(--fs-mono-sm)/1.6 var(--mono);color:var(--ink-2);margin-top:var(--s1)}
+.entry .sep{color:var(--rule-2);margin-inline:var(--s2)}
+
+.year{
+  font:500 var(--fs-mono-xs)/var(--lh-mono) var(--mono);
+  letter-spacing:var(--track-caps);text-align:right;color:var(--ink-2);
+  border-top:1px solid var(--rule-2);padding-top:var(--s2);
+  margin:var(--s6) 0 var(--s4);font-variant-numeric:tabular-nums;
+}
+.group + .group{margin-top:var(--s6)}
+
+/* Marginal rule on hover: the printed-page equivalent of a hover state.
+   Absolutely positioned, so it can never shift layout. */
+.entry::before{
+  content:"";position:absolute;left:-1rem;top:.25em;bottom:.25em;width:2px;
+  background:var(--accent);opacity:0;transition:opacity 90ms linear;
+}
+.entry:hover::before,
+.entry:focus-within::before{opacity:.7}
+.entry:target{background:var(--accent-wash);box-shadow:0 0 0 .6rem var(--accent-wash)}
+@media (hover:none){.entry::before{display:none}}
+
+/* --------------------------------------------------------------------------
+   9. Notice block (the honest empty state on the papers page)
+   -------------------------------------------------------------------------- */
+.notice{
+  background:var(--paper-2);
+  border-left:2px solid var(--rule-2);
+  border-radius:var(--r-0);
+  padding:var(--s4) var(--s5);
+}
+.notice p{margin:0;font:400 var(--fs-sm)/1.6 var(--serif)}
+.notice .notice__meta{
+  margin-top:var(--s3);
+  font:400 var(--fs-mono-sm)/1.6 var(--mono);color:var(--ink-2);
+}
+.notice .sep{color:var(--rule-2);margin-inline:var(--s2)}
+
+/* --------------------------------------------------------------------------
+   10. Colophon
+   -------------------------------------------------------------------------- */
+.colophon{
+  border-top:1px solid var(--rule-2);
+  margin-top:var(--s8);padding-block:var(--s5);
+}
+.colophon p{
+  margin:0;font:400 var(--fs-mono-xs)/1.7 var(--mono);color:var(--ink-2);
+  max-width:var(--measure);
+}
+.colophon p + p{margin-top:var(--s2)}
+
+/* --------------------------------------------------------------------------
+   11. Links, focus, selection, motion
+   -------------------------------------------------------------------------- */
+a{
+  color:var(--ink);
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:.16em;
+  text-decoration-color:var(--rule-2);
+  transition:color 90ms linear,text-decoration-color 90ms linear;
+}
+a:hover{color:var(--accent);text-decoration-color:var(--accent)}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-1)}
+:focus:not(:focus-visible){outline:none}
+
+::selection{background:var(--accent-wash);color:var(--ink)}
+
+.skip{position:absolute;left:-9999px;top:0}
+.skip:focus{
+  position:fixed;left:var(--s3);top:var(--s3);z-index:9;
+  background:var(--paper);color:var(--ink);
+  border:1px solid var(--rule-2);outline:2px solid var(--accent);outline-offset:2px;
+  padding:var(--s2) var(--s4);border-radius:var(--r-2);
+  font:500 var(--fs-mono-xs)/1 var(--mono);letter-spacing:var(--track-caps);
+  text-transform:uppercase;text-decoration:none;
+}
+
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+    clip-path:inset(50%);white-space:nowrap;border:0}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    transition-duration:1ms !important;
+    animation-duration:1ms !important;
+    animation-iteration-count:1 !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   12. The motif. A Peierls-dimerized atomic chain: a = 8, u = 1.2, so the
+       strong bond is a - 2u = 5.6, the weak bond a + 2u = 10.4, and the
+       doubled cell 2a = 16 is the pattern tile. Filled disc = sublattice A,
+       hollow ring = sublattice B. The bonds, not the atoms, carry the
+       dimerization, because a Peierls distortion is a bond-order wave.
+   -------------------------------------------------------------------------- */
+.chain{display:block;width:100%;height:12px;color:var(--rule-2);margin-block:var(--s7)}
+.chain .site-b{fill:var(--paper)}
+.mark  .site-b{fill:var(--paper)}
+.mark  .soliton{fill:var(--accent)}
+
+/* --------------------------------------------------------------------------
+   13. Breakpoints. Two, and that is all.
+   -------------------------------------------------------------------------- */
+@media (max-width:54rem){          /* 864px: the rail collapses */
+  .row{grid-template-columns:minmax(0,1fr)}
+  .row > *{grid-column:1}
+  .row > .rail{
+    grid-column:1;text-align:left;padding-top:var(--s2);
+    border-top:1px solid var(--rule);margin-bottom:var(--s3);
+  }
+  .titleblock > .rail{border-top:0;padding-top:0;margin-bottom:var(--s5)}
+  .titleblock{padding-top:var(--s6)}
+  .row + .row{margin-top:var(--s6)}
+  .plate{width:7rem}               /* 112px = exactly 7 pattern tiles */
+  .plate-fig figcaption{text-align:left;max-width:7rem;margin-left:0}
+}
+@media (max-width:30rem){          /* 480px: type steps down */
+  :root{--fs-h1:1.75rem;--fs-base:1rem;--fs-lede:1.0625rem}
+  dl.links{grid-template-columns:minmax(0,1fr);row-gap:0}
+  dl.links dt{margin-top:var(--s3)}
+  .chain{margin-block:var(--s6)}
+}
+
+/* --------------------------------------------------------------------------
+   14. Forced colors. :target is a box-shadow and the entry hover mark is a
+       ::before background; both vanish here without these overrides.
+   -------------------------------------------------------------------------- */
+@media (forced-colors:active){
+  .entry:target{background:Highlight;color:HighlightText;box-shadow:none;outline:2px solid CanvasText}
+  .entry::before{background:CanvasText}
+  .plate{border-color:CanvasText}
+  .notice{border-left-color:CanvasText}
+  :focus-visible{outline-color:Highlight}
+}
+
+/* --------------------------------------------------------------------------
+   15. Print. Publication lists get printed for committees.
+   -------------------------------------------------------------------------- */
+@media print{
+  :root{
+    --paper:#fff;--paper-2:#fff;--ink:#000;--ink-2:#333;
+    --rule:#bbb;--rule-2:#888;--accent:#000;--accent-wash:#fff;
+  }
+  .masthead nav,.skip,.chain,.mark{display:none}
+  body{font-size:10.5pt;line-height:1.45;background:#fff}
+  .wrap{max-width:none;padding-inline:0}
+  a{text-decoration:none;color:#000}
+  .biblio a[href^="http"]::after,
+  dl.links a[href^="http"]::after,
+  .notice a[href^="http"]::after{
+    content:" <" attr(href) ">";
+    font:400 8pt/1 var(--mono);color:#444;word-break:break-all;
+  }
+  .entry,.plate-fig,.notice{break-inside:avoid}
+  h1,h2,h3{break-after:avoid}
+  .entry::before{display:none}
+  @page{margin:18mm 16mm}
+}
