@@ -9,20 +9,32 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. Tokens. Light lives on bare :root; the dark block remaps colour only.
+   1. Tokens. Light is the default for everyone, regardless of OS setting.
+      Dark exists only when the reader presses the toggle in the masthead,
+      which sets data-theme="dark" on <html>. There is deliberately no
+      prefers-color-scheme block: one theme, one place to edit, no drift.
    -------------------------------------------------------------------------- */
 :root{
-  color-scheme: light dark;
+  color-scheme: light;
 
-  /* colour — contrast ratios are against --paper */
-  --paper:       #FAF9F5;   /* warm preprint stock; never pure #fff        */
-  --paper-2:     #F2F0E9;   /* photo plate ground, notice block            */
-  --ink:         #191817;   /* body text                    16.83:1  AAA   */
-  --ink-2:       #55524C;   /* labels, authors, dates        7.39:1  AAA   */
-  --rule:        #DDD9D0;   /* decorative hairline only      1.34:1        */
-  --rule-2:      #8E8879;   /* structural lines              3.35:1  AA-UI */
-  --accent:      #8E2B22;   /* oxide red                     7.91:1  AAA   */
-  --accent-wash: #F0E4E1;   /* ::selection and :target ground              */
+  /* colour — cool near-white stock, cool inks, cerulean accent.
+     Ratios are against --paper unless noted; all verified with the WCAG
+     formula. The page reads bright because the INK was lifted (L* 8.3 -> 20.5),
+     not only the ground: on a text-dense column the glyphs are the dark area. */
+  --paper:       #FAFCFF;   /* cool near-white; never pure #fff            */
+  --paper-2:     #EFF3F9;   /* photo plate ground, notice block            */
+  --ink:         #2B323B;   /* body text                    12.60:1  AAA   */
+  --ink-2:       #4D545E;   /* labels, authors, dates        7.44:1  AAA   */
+  --rule:        #E1E8F2;   /* decorative hairline only      1.20:1        */
+  --rule-2:      #828992;   /* structural lines              3.44:1  AA-UI */
+  --accent:      #1060A8;   /* cerulean                      6.27:1  AAA   */
+  --accent-wash: #DDE9F8;   /* ::selection and :target ground              */
+
+  /* also verified: ink/paper-2 11.63, ink-2/paper-2 6.87, rule-2/paper-2 3.17,
+     ink/wash 10.53, accent/wash 5.24.
+     LOCKED PAIR: --rule-2 on --paper-2 sits at 3.17:1. Lightening --rule-2 or
+     darkening --paper-2 without moving the other drops the plate frame and the
+     chain ornament below the 3:1 non-text floor. */
 
   /* spacing — 4px root; --s2 is a, the lattice constant */
   --s1: .25rem;   /*   4px */
@@ -57,7 +69,7 @@
   --lh-tight: 1.14;
   --lh-snug:  1.36;
   --lh-mono:  1.5;
-  --lh-body:  1.62;
+  --lh-body:  1.72;   /* opened from 1.62: more paper between baselines */
 
   --track-caps: .11em;
 
@@ -70,17 +82,18 @@
            "Nanum Gothic",sans-serif;
 }
 
-@media (prefers-color-scheme: dark){
-  :root{
-    --paper:       #1A1917;
-    --paper-2:     #232120;
-    --ink:         #E9E5DB;   /* 13.97:1  AAA */
-    --ink-2:       #A29B8D;   /*  6.37:1  AA+ */
-    --rule:        #33302B;
-    --rule-2:      #736D60;   /*  3.42:1      */
-    --accent:      #DE7F71;   /*  6.17:1  AA+ */
-    --accent-wash: #33211D;
-  }
+
+/* Dark, opt-in only: set by the masthead toggle via data-theme="dark". */
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:       #262C33;   /* cool graphite, 2.5x the luminance of near-black */
+  --paper-2:     #30363E;
+  --ink:         #E9EEF4;   /* 12.08:1  AAA */
+  --ink-2:       #B2BCC8;   /*  7.33:1  AAA */
+  --rule:        #3A414A;
+  --rule-2:      #848F9D;   /*  4.29:1      */
+  --accent:      #86BAEA;   /*  6.86:1  AAA */
+  --accent-wash: #2D3F55;
 }
 
 /* --------------------------------------------------------------------------
@@ -128,7 +141,7 @@ body{
 h1,h2,h3{font-weight:inherit;margin:0}
 
 .name{
-  font:600 var(--fs-h1)/var(--lh-tight) var(--serif);
+  font:520 var(--fs-h1)/var(--lh-tight) var(--serif);
   letter-spacing:-.012em;
   color:var(--ink);
 }
@@ -196,6 +209,23 @@ time{font-variant-numeric:tabular-nums}
 }
 .masthead .sep{color:var(--rule-2);margin-inline:var(--s2)}
 
+/* Theme toggle. A word, not an icon — the same register as the nav links.
+   The visible label stays "Dark"; aria-pressed carries the state, so the
+   accessible name never changes under the reader. Hidden without JS. */
+.masthead .theme{
+  font:500 var(--fs-mono-xs)/1 var(--mono);
+  letter-spacing:var(--track-caps);text-transform:uppercase;
+  color:var(--ink-2);background:none;border:0;padding:0;cursor:pointer;
+}
+.masthead .theme:hover{color:var(--accent)}
+.masthead .theme[aria-pressed="true"]{
+  color:var(--ink);
+  text-decoration:underline;
+  text-decoration-color:var(--accent);
+  text-decoration-thickness:2px;
+  text-underline-offset:.4em;
+}
+
 /* --------------------------------------------------------------------------
    6. Photo plate. Correct both empty and full, with zero layout shift.
       To add the photo: drop portrait.jpg at the repo root. No edit needed.
@@ -256,7 +286,7 @@ ol.biblio{list-style:none;margin:0;padding:0}  /* semantic list, no visible
 .entry{position:relative}
 .entry + .entry{margin-top:var(--s5)}
 .entry p{margin:0}
-.entry-title{font:600 var(--fs-base)/var(--lh-snug) var(--serif);color:var(--ink)}
+.entry-title{font:540 var(--fs-base)/var(--lh-snug) var(--serif);color:var(--ink)}
 .entry .entry-authors,
 .entry .entry-ref{font:400 var(--fs-sm)/1.55 var(--serif);color:var(--ink-2);margin-top:var(--s1)}
 .me{font-weight:600;color:var(--ink)}   /* self-marking in value alone; colour
@@ -289,7 +319,7 @@ ol.biblio{list-style:none;margin:0;padding:0}  /* semantic list, no visible
    -------------------------------------------------------------------------- */
 .notice{
   background:var(--paper-2);
-  border-left:2px solid var(--rule-2);
+  border-left:1px solid var(--rule-2);
   border-radius:var(--r-0);
   padding:var(--s4) var(--s5);
 }
@@ -319,8 +349,8 @@ ol.biblio{list-style:none;margin:0;padding:0}  /* semantic list, no visible
 a{
   color:var(--ink);
   text-decoration:underline;
-  text-decoration-thickness:1px;
-  text-underline-offset:.16em;
+  text-decoration-thickness:from-font;
+  text-underline-offset:.2em;
   text-decoration-color:var(--rule-2);
   transition:color 90ms linear,text-decoration-color 90ms linear;
 }
@@ -360,7 +390,7 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
        hollow ring = sublattice B. The bonds, not the atoms, carry the
        dimerization, because a Peierls distortion is a bond-order wave.
    -------------------------------------------------------------------------- */
-.chain{display:block;width:100%;height:12px;color:var(--rule-2);margin-block:var(--s7)}
+.chain{display:block;width:100%;height:12px;color:var(--rule-2);margin-block:var(--s8)}
 .chain .site-b{fill:var(--paper)}
 .mark  .site-b{fill:var(--paper)}
 .mark  .soliton{fill:var(--accent)}
@@ -408,7 +438,7 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
     --paper:#fff;--paper-2:#fff;--ink:#000;--ink-2:#333;
     --rule:#bbb;--rule-2:#888;--accent:#000;--accent-wash:#fff;
   }
-  .masthead nav,.skip,.chain,.mark{display:none}
+  .masthead nav,.masthead .theme,.skip,.chain,.mark{display:none}
   body{font-size:10.5pt;line-height:1.45;background:#fff}
   .wrap{max-width:none;padding-inline:0}
   a{text-decoration:none;color:#000}
