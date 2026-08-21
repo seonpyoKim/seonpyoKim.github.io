@@ -332,22 +332,28 @@ ol.biblio{list-style:none;margin:0;padding:0}  /* semantic list, no visible
 .entry:target{background:var(--accent-wash);box-shadow:0 0 0 .6rem var(--accent-wash)}
 @media (hover:none){.entry::before{display:none}}
 
-/* Roles list (experience.html). Mirrors the papers entry: serif title, muted
+/* Roles and awards lists (experience.html, awards.html). Mirror the
+   papers entry: serif title, muted
    organisation, dates in the mono face and tabular-lined so they stack in a
    column as roles accumulate. The two-class selectors below are deliberate —
-   `.role p{margin:0}` would otherwise outrank a single-class margin rule. */
-ol.roles{list-style:none;margin:0;padding:0}
-.role p{margin:0}
+   `.role p,.award p{margin:0}` would otherwise outrank a single-class margin rule. */
+ol.roles,ol.awards{list-style:none;margin:0;padding:0}
+.role p,.award p{margin:0}
 .role + .role{margin-top:var(--s6)}
-.role-title{font:540 var(--fs-base)/var(--lh-snug) var(--serif);color:var(--ink)}
-.role .role-org{
+.award + .award{margin-top:var(--s5)}   /* awards are shorter entries */
+.role-title,
+.award-title{font:540 var(--fs-base)/var(--lh-snug) var(--serif);color:var(--ink)}
+.role .role-org,
+.award .award-org{
   font:400 var(--fs-sm)/1.55 var(--serif);color:var(--ink-2);margin-top:var(--s1);
 }
-.role .role-when{
+.role .role-when,
+.award .award-when{
   font:400 var(--fs-mono)/1.6 var(--mono);color:var(--ink-2);
   font-variant-numeric:tabular-nums;margin-top:var(--s1);
 }
-.role .role-note{
+.role .role-note,
+.award .award-note{
   font:400 var(--fs-sm)/1.62 var(--serif);color:var(--ink);margin-top:var(--s3);
 }
 
@@ -460,6 +466,14 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
 /* --------------------------------------------------------------------------
    13. Breakpoints. Two, and that is all.
    -------------------------------------------------------------------------- */
+@media (max-width:44rem){          /* 704px: the masthead wraps.
+     Four nav items plus the toggle measure ~337px, and the wordmark ~202px.
+     Past this width they no longer sit on one line, so let the nav drop
+     below the wordmark and wrap internally rather than scroll the page
+     sideways. */
+  .masthead__in{flex-wrap:wrap;row-gap:var(--s3)}
+  .masthead nav{white-space:normal}
+}
 @media (max-width:54rem){          /* 864px: the rail collapses */
   .row{grid-template-columns:minmax(0,1fr)}
   .row > *{grid-column:1}
