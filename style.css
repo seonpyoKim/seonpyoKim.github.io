@@ -4,8 +4,7 @@
 
    The page is set like an arXiv abstract: a serif text column with a
    right-flush monospace metadata rail. Its only ornament is a
-   Peierls-dimerized atomic chain (the Su-Schrieffer-Heeger chain), whose
-   lattice constant a = 8px is also the base of the spacing scale below.
+   chiral spin spiral, drawn as arrows and coloured by rotation angle.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -33,14 +32,14 @@
   /* also verified: ink/paper-2 11.63, ink-2/paper-2 6.87, rule-2/paper-2 3.17,
      ink/wash 10.53, accent/wash 5.24.
      LOCKED PAIR: --rule-2 on --paper-2 sits at 3.17:1. Lightening --rule-2 or
-     darkening --paper-2 without moving the other drops the plate frame and the
-     chain ornament below the 3:1 non-text floor. */
+     darkening --paper-2 without moving the other drops the photo plate frame
+     below the 3:1 non-text floor. */
 
-  /* spacing — 4px root; --s2 is a, the lattice constant */
+  /* spacing — 4px root */
   --s1: .25rem;   /*   4px */
-  --s2: .5rem;    /*   8px  = a   */
+  --s2: .5rem;    /*   8px */
   --s3: .75rem;   /*  12px */
-  --s4: 1rem;     /*  16px  = 2a  */
+  --s4: 1rem;     /*  16px — also the spin spacing in the ornament */
   --s5: 1.5rem;   /*  24px */
   --s6: 2rem;     /*  32px */
   --s7: 3rem;     /*  48px */
@@ -192,7 +191,7 @@ time{font-variant-numeric:tabular-nums}
   letter-spacing:var(--track-caps);text-transform:uppercase;
   color:var(--ink);text-decoration:none;
 }
-.wordmark .mark{display:block;color:var(--rule-2);flex:none}
+.wordmark .mark{display:block;flex:none}
 .masthead nav{
   font:500 var(--fs-mono-xs)/1 var(--mono);
   letter-spacing:var(--track-caps);text-transform:uppercase;
@@ -247,7 +246,6 @@ time{font-variant-numeric:tabular-nums}
   width:100%;height:100%;display:block;
   color:var(--rule-2);
 }
-.plate__lattice .site-b{fill:var(--paper-2)}
 .plate img{
   position:relative;z-index:1;
   width:100%;height:100%;display:block;
@@ -384,16 +382,41 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
 }
 
 /* --------------------------------------------------------------------------
-   12. The motif. A Peierls-dimerized atomic chain: a = 8, u = 1.2, so the
-       strong bond is a - 2u = 5.6, the weak bond a + 2u = 10.4, and the
-       doubled cell 2a = 16 is the pattern tile. Filled disc = sublattice A,
-       hollow ring = sublattice B. The bonds, not the atoms, carry the
-       dimerization, because a Peierls distortion is a bond-order wave.
+   12. The motif. A chiral spin spiral, drawn as arrows: one per spin.
+
+       Hue encodes the spin's rotation angle on a cyclic OKLCH ramp at
+       CONSTANT lightness (L=0.60 light, L=0.78 dark), so the colour is the
+       physics — the same convention used for spin textures in the
+       literature — and no single direction reads louder than the rest.
+       Every stop clears 3.6:1 against its ground, so the ornament reads as
+       ink rather than as a wash. Arrow DIRECTION carries the same
+       information as hue, so nothing is lost without colour.
+
+       .spiral  a cycloidal spiral, one full turn per 128px (8 spins x 16px)
+       .mark    a 180-degree Neel domain wall, in the masthead
+       .plate__lattice   a skyrmion lattice, visible only if the photo is gone
    -------------------------------------------------------------------------- */
-.chain{display:block;width:100%;height:12px;color:var(--rule-2);margin-block:var(--s8)}
-.chain .site-b{fill:var(--paper)}
-.mark  .site-b{fill:var(--paper)}
-.mark  .soliton{fill:var(--accent)}
+.spiral{display:block;width:100%;height:20px;margin-block:var(--s8)}
+
+.spin.s0{fill:#DA347B}
+.spin.s1{fill:#C55F2A}
+.spin.s2{fill:#987D2B}
+.spin.s3{fill:#56932C}
+.spin.s4{fill:#319282}
+.spin.s5{fill:#308CAC}
+.spin.s6{fill:#5774ED}
+.spin.s7{fill:#B638E4}
+.core{fill:var(--ink)}
+
+/* dark ramp: same hues, lifted lightness for the dark ground */
+:root[data-theme="dark"] .spin.s0{fill:#F696B4}
+:root[data-theme="dark"] .spin.s1{fill:#F69F77}
+:root[data-theme="dark"] .spin.s2{fill:#D9B341}
+:root[data-theme="dark"] .spin.s3{fill:#7DD142}
+:root[data-theme="dark"] .spin.s4{fill:#4AD0BA}
+:root[data-theme="dark"] .spin.s5{fill:#48C8F4}
+:root[data-theme="dark"] .spin.s6{fill:#A0B5F5}
+:root[data-theme="dark"] .spin.s7{fill:#D99BF5}
 
 /* --------------------------------------------------------------------------
    13. Breakpoints. Two, and that is all.
@@ -415,7 +438,7 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
   :root{--fs-h1:1.75rem;--fs-base:1rem;--fs-lede:1.0625rem}
   dl.links{grid-template-columns:minmax(0,1fr);row-gap:0}
   dl.links dt{margin-top:var(--s3)}
-  .chain{margin-block:var(--s6)}
+  .spiral{margin-block:var(--s7)}
 }
 
 /* --------------------------------------------------------------------------
@@ -438,7 +461,7 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
     --paper:#fff;--paper-2:#fff;--ink:#000;--ink-2:#333;
     --rule:#bbb;--rule-2:#888;--accent:#000;--accent-wash:#fff;
   }
-  .masthead nav,.masthead .theme,.skip,.chain,.mark{display:none}
+  .masthead nav,.masthead .theme,.skip,.spiral,.mark{display:none}
   body{font-size:10.5pt;line-height:1.45;background:#fff}
   .wrap{max-width:none;padding-inline:0}
   a{text-decoration:none;color:#000}
