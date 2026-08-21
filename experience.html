@@ -7,12 +7,12 @@
 <!-- Restore the reader's saved theme before the stylesheet parses, so a
      dark-toggled visitor never sees a flash of light. Light is the default. -->
 <script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){var d=document.documentElement;d.dataset.theme=t;d.style.colorScheme=t}}catch(e){}</script>
-<title>Papers &mdash; Seonpyo Kim</title>
-<meta name="description" content="Preprints and published work by Seonpyo Kim — machine learning for physics, Department of Physics, POSTECH.">
+<title>Experience &mdash; Seonpyo Kim</title>
+<meta name="description" content="Software engineering experience of Seonpyo Kim, graduate student in the Department of Physics, POSTECH.">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="Papers — Seonpyo Kim">
-<meta property="og:description" content="Preprints and published work by Seonpyo Kim — machine learning for physics, POSTECH.">
-<meta property="og:url" content="https://seonpyokim.github.io/papers.html">
+<meta property="og:title" content="Experience — Seonpyo Kim">
+<meta property="og:description" content="Software engineering experience of Seonpyo Kim, POSTECH.">
+<meta property="og:url" content="https://seonpyokim.github.io/experience.html">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,9 +32,9 @@
     <nav aria-label="Primary">
       <a href="index.html">Index</a>
       <span class="sep" aria-hidden="true">&middot;</span>
-      <a href="papers.html" aria-current="page">Papers</a>
+      <a href="papers.html">Papers</a>
       <span class="sep" aria-hidden="true">&middot;</span>
-      <a href="experience.html">Experience</a>
+      <a href="experience.html" aria-current="page">Experience</a>
       <span class="sep" aria-hidden="true">&middot;</span>
       <button class="theme" type="button" aria-pressed="false" hidden>Dark</button>
     </nav>
@@ -44,90 +44,35 @@
 <main id="main" class="wrap">
 
   <section class="row titleblock">
-    <p class="rail label">Listing</p>
-    <h1 class="name">Papers</h1>
-    <p class="standfirst">Reverse chronological, preprints first. Full author
-      lists, no &ldquo;et al.&rdquo;; my own name is set in bold.</p>
+    <p class="rail label">Record</p>
+    <h1 class="name">Experience</h1>
+    <p class="standfirst">Software engineering roles, most recent first.</p>
   </section>
 
   <svg class="spiral" width="100%" height="20" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="spiral" patternUnits="userSpaceOnUse" x="0" y="0" width="128" height="20"><path class="spin s0" d="M6.9 17L6.9 7.8L5.4 7.8L8 3L10.6 7.8L9.1 7.8L9.1 17Z" fill="#DA347B"/><path class="spin s1" d="M18.27 14.17L24.78 7.67L23.72 6.61L28.95 5.05L27.39 10.28L26.33 9.22L19.83 15.73Z" fill="#C55F2A"/><path class="spin s2" d="M33 8.9L42.2 8.9L42.2 7.4L47 10L42.2 12.6L42.2 11.1L33 11.1Z" fill="#987D2B"/><path class="spin s3" d="M51.83 4.27L58.33 10.78L59.39 9.72L60.95 14.95L55.72 13.39L56.78 12.33L50.27 5.83Z" fill="#56932C"/><path class="spin s4" d="M73.1 3L73.1 12.2L74.6 12.2L72 17L69.4 12.2L70.9 12.2L70.9 3Z" fill="#319282"/><path class="spin s5" d="M93.73 5.83L87.22 12.33L88.28 13.39L83.05 14.95L84.61 9.72L85.67 10.78L92.17 4.27Z" fill="#308CAC"/><path class="spin s6" d="M111 11.1L101.8 11.1L101.8 12.6L97 10L101.8 7.4L101.8 8.9L111 8.9Z" fill="#5774ED"/><path class="spin s7" d="M124.17 15.73L117.67 9.22L116.61 10.28L115.05 5.05L120.28 6.61L119.22 7.67L125.73 14.17Z" fill="#B638E4"/></pattern></defs><rect width="100%" height="20" fill="url(#spiral)"/></svg>
 
-  <!-- ==================== EMPTY STATE ====================
-       Delete this whole <section> as soon as you have one preprint, and
-       uncomment the template below in its place. -->
-  <section class="row" aria-labelledby="lbl-preprints">
-    <h2 class="rail label" id="lbl-preprints">Preprints</h2>
-    <div class="notice">
-      <p>Nothing here yet. The first preprint will be listed on this page the
-        day it goes up on arXiv.</p>
-      <p class="notice__meta">arXiv author search:
-        <a href="https://arxiv.org/search/?searchtype=author&amp;query=Kim%2C+Seonpyo">Kim, Seonpyo</a>
-        <span class="sep" aria-hidden="true">&middot;</span>
-        last checked <time datetime="2026-08-20">2026-08-20</time></p>
-    </div>
-  </section>
+  <section class="row" aria-labelledby="lbl-roles">
+    <h2 class="rail label" id="lbl-roles">Roles</h2>
+    <ol class="roles">
 
-<!-- =======================================================================
-     TEMPLATE — how to add a paper.
-
-       1. Delete the "Preprints" empty-state <section> above.
-       2. Copy out the block you need from this comment, paste it into
-          <main>, and edit it.
-       3. Newest first. Preprints above Published. Within Published, newest
-          year first.
-
-     THE RULES (physics conventions, worth keeping):
-       - List every author. Never "et al." — that reads as a CS transplant.
-       - Mark yourself: wrap your own name in <b class="me">.
-       - A preprint shows the arXiv id ONLY. No journal line, no "submitted
-         to", no "in preparation" — those read as padding.
-       - Once published, show the journal reference AND the arXiv id.
-         Physicists read the arXiv version; never drop that link.
-       - The whole journal string is the DOI hyperlink. No separate "DOI"
-         button. Volume in <b>, page not.
-       - Chemistry in Unicode or <sub>: NbSe<sub>2</sub>, BaFe&#8322;S&#8323;.
-         No MathJax is loaded. If a title ever needs real LaTeX, add KaTeX
-         then — not before.
-       - Equal contribution: put a trailing * on each equal author and add
-         <p class="entry-note">* These authors contributed equally.</p>
-
-     -------- A PREPRINT --------
-
-<section class="row" aria-labelledby="lbl-preprints">
-  <h2 class="rail label" id="lbl-preprints">Preprints</h2>
-  <ol class="biblio">
-    <li class="entry" id="short-key">
-      <p class="entry-title">Title of the paper, sentence case</p>
-      <p class="entry-authors"><b class="me">S. Kim<span class="vh"> (this author)</span></b>, A. Coauthor, and B. Coauthor</p>
-      <p class="entry-ref"><a class="eprint" href="https://arxiv.org/abs/0000.00000">arXiv:0000.00000</a></p>
-    </li>
-  </ol>
-</section>
-
-     -------- PUBLISHED, GROUPED BY YEAR --------
-
-<section class="row" aria-labelledby="lbl-published">
-  <h2 class="rail label" id="lbl-published">Published</h2>
-  <div class="group">
-    <h3 class="year">2027</h3>
-    <ol class="biblio">
-      <li class="entry" id="another-key">
-        <p class="entry-title">Title of the paper, sentence case</p>
-        <p class="entry-authors"><b class="me">S. Kim<span class="vh"> (this author)</span></b>, A. Coauthor, and B. Coauthor</p>
-        <p class="entry-ref">
-          <a href="https://doi.org/10.1103/PhysRevB.000.000000">Phys. Rev. B <b>000</b>, 000000 (2027)</a>
-          <span class="sep" aria-hidden="true">&middot;</span>
-          <a class="eprint" href="https://arxiv.org/abs/0000.00000">arXiv:0000.00000</a>
-        </p>
-        <p class="entry-note">Editors&rsquo; Suggestion</p>
+      <!-- Newest first. To add a role, copy this whole <li> block and put it
+           ABOVE the existing ones. Keep the machine-readable months in the
+           datetime attributes (YYYY-MM) even though the visible text is
+           spelled out — that is what makes the dates parseable. -->
+      <li class="role">
+        <p class="role-title">Software Engineer</p>
+        <p class="role-org">KodeBox &middot; Seoul, South Korea</p>
+        <p class="role-when"><time datetime="2019-01">January 2019</time> &ndash;
+          <time datetime="2020-05">May 2020</time></p>
+        <!-- One or two sentences on what you actually built is worth adding
+             here — what you owned, in what language, at what scale. I have
+             kept it to what I could verify rather than guess. -->
+        <p class="role-note">Worked on CodeChain, a public blockchain protocol
+          developed at KodeBox.</p>
       </li>
-    </ol>
-  </div>
-</section>
 
-     Note the structure: <h3 class="year"> is a SIBLING of <ol>, wrapped in
-     .group. An <h3> inside an <ol> is invalid and breaks list semantics.
-======================================================================= -->
+    </ol>
+  </section>
 
 </main>
 

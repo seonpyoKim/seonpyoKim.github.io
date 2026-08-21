@@ -332,6 +332,25 @@ ol.biblio{list-style:none;margin:0;padding:0}  /* semantic list, no visible
 .entry:target{background:var(--accent-wash);box-shadow:0 0 0 .6rem var(--accent-wash)}
 @media (hover:none){.entry::before{display:none}}
 
+/* Roles list (experience.html). Mirrors the papers entry: serif title, muted
+   organisation, dates in the mono face and tabular-lined so they stack in a
+   column as roles accumulate. The two-class selectors below are deliberate —
+   `.role p{margin:0}` would otherwise outrank a single-class margin rule. */
+ol.roles{list-style:none;margin:0;padding:0}
+.role p{margin:0}
+.role + .role{margin-top:var(--s6)}
+.role-title{font:540 var(--fs-base)/var(--lh-snug) var(--serif);color:var(--ink)}
+.role .role-org{
+  font:400 var(--fs-sm)/1.55 var(--serif);color:var(--ink-2);margin-top:var(--s1);
+}
+.role .role-when{
+  font:400 var(--fs-mono)/1.6 var(--mono);color:var(--ink-2);
+  font-variant-numeric:tabular-nums;margin-top:var(--s1);
+}
+.role .role-note{
+  font:400 var(--fs-sm)/1.62 var(--serif);color:var(--ink);margin-top:var(--s3);
+}
+
 /* --------------------------------------------------------------------------
    9. Notice block (the honest empty state on the papers page)
    -------------------------------------------------------------------------- */
