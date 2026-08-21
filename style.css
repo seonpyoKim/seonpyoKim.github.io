@@ -278,6 +278,23 @@ dl.links dd{
   overflow-wrap:anywhere;
 }
 
+/* Education history, set beside the portrait in the title block. Years in
+   the mono face and tabular-lined, so the digits stack in a true column as
+   entries accumulate. Fixed year column, so adding a wider entry later
+   cannot shift the text beside it. */
+dl.history{
+  display:grid;grid-template-columns:3.75rem minmax(0,1fr);
+  column-gap:var(--s4);row-gap:var(--s2);
+  margin:var(--s4) 0 0;
+}
+dl.history dt{
+  font:400 var(--fs-mono)/1.65 var(--mono);
+  color:var(--ink-2);font-variant-numeric:tabular-nums;
+}
+dl.history dd{
+  margin:0;font:400 var(--fs-sm)/1.65 var(--serif);color:var(--ink);
+}
+
 /* --------------------------------------------------------------------------
    8. Papers list
    -------------------------------------------------------------------------- */
@@ -441,6 +458,8 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
   :root{--fs-h1:1.75rem;--fs-base:1rem;--fs-lede:1.0625rem}
   dl.links{grid-template-columns:minmax(0,1fr);row-gap:0}
   dl.links dt{margin-top:var(--s3)}
+  dl.history{grid-template-columns:minmax(0,1fr);row-gap:0}
+  dl.history dt{margin-top:var(--s3)}
   .spiral{margin-block:var(--s7)}
 }
 
