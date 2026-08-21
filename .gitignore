@@ -1,0 +1,6 @@
+# The camera original of the portrait. It carries EXIF GPS coordinates,
+# device and timestamp — publishing it would put the exact location where
+# the photo was taken into a public repository. The published portrait.jpg
+# at the repo root is a resized copy with all metadata stripped.
+# Delete this line only if you have stripped the original's metadata too.
+Images/

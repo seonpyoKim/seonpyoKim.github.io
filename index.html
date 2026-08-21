@@ -47,19 +47,18 @@
   <!-- ==================== TITLE BLOCK ==================== -->
   <section class="row titleblock">
 
-    <!-- PHOTO. Drop a file named portrait.jpg at the repo root and it appears
-         here automatically — no HTML or CSS edit needed. Best results:
-         576x720 px (a 4:5 crop), under 120 KB.
-         Until then the plate shows an array of dimerized wires and the
-         caption below reads "Portrait, to appear."
-         When you add the photo, change that caption to something like
-         FIG. 1. S. Kim, POSTECH, 2026. -->
+    <!-- PHOTO. portrait.jpg is 576x720 (a 4:5 crop), 67 KB, with ALL metadata
+         stripped — the camera original carried GPS coordinates, which must
+         never be published. To replace it: drop in a new portrait.jpg at the
+         same size, run it through an EXIF stripper first, and edit the
+         caption below. If the file is ever missing the plate falls back to
+         an array of dimerized wires, so the layout never breaks. -->
     <figure class="rail plate-fig">
       <div class="plate">
         <svg class="plate__lattice" viewBox="0 0 144 180" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="wires" patternUnits="userSpaceOnUse" x="0" y="0" width="16" height="30"><path d="M0 15h4M9.6 15H16" fill="none" stroke="currentColor" stroke-width=".7"/><path d="M4 15h5.6" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="4" cy="15" r="1.35" fill="currentColor"/><circle class="site-b" cx="9.6" cy="15" r="1.1" fill="#EFF3F9" stroke="currentColor" stroke-width=".7"/></pattern></defs><rect width="144" height="180" fill="url(#wires)"/></svg>
         <img src="portrait.jpg" alt="Seonpyo Kim" width="576" height="720" onerror="this.remove()">
       </div>
-      <figcaption>FIG.&nbsp;1. Portrait, to appear.</figcaption>
+      <figcaption>FIG.&nbsp;1. S. Kim, 2026.</figcaption>
     </figure>
 
     <!-- Your name in Hangul can go here if you want it — it helps tell you
@@ -156,7 +155,7 @@
     <!-- Bump this date by hand when you change the page. It is deliberately
          not auto-generated: an auto year makes an abandoned site look
          maintained, which is the actual harm. -->
-    <p>Last updated <time datetime="2026-08-20">2026-08-20</time> &middot;
+    <p>Last updated <time datetime="2026-08-21">2026-08-21</time> &middot;
       Source: <a href="https://github.com/seonpyoKim/seonpyokim.github.io">github.com/seonpyoKim/seonpyokim.github.io</a></p>
     <p>Rule and mark: a Peierls-dimerized atomic chain, lattice constant
       a = 8&nbsp;px, the same quantum as this page&rsquo;s spacing scale; the
