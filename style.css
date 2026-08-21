@@ -183,7 +183,15 @@ time{font-variant-numeric:tabular-nums}
 .masthead{border-bottom:1px solid var(--rule-2)}
 .masthead__in{
   display:flex;align-items:center;justify-content:space-between;
-  gap:var(--s4);padding-block:var(--s3);
+  gap:var(--s4);row-gap:var(--s3);padding-block:var(--s3);
+  flex-wrap:wrap;   /* Never clip. With four nav items the row can exceed the
+                       available width on a narrow viewport — or on a wide one
+                       if Google Fonts fails and a wider fallback mono is used.
+                       Wrapping lets the nav drop to its own line instead of
+                       running off the edge and hiding the last tab. This is
+                       deliberately unconditional rather than behind a
+                       breakpoint, because the exact width it happens at
+                       depends on font metrics we do not control. */
 }
 .wordmark{
   display:inline-flex;align-items:center;gap:var(--s3);
@@ -195,9 +203,12 @@ time{font-variant-numeric:tabular-nums}
 .masthead nav{
   font:500 var(--fs-mono-xs)/1 var(--mono);
   letter-spacing:var(--track-caps);text-transform:uppercase;
-  white-space:nowrap;
+  white-space:normal;   /* wrap within the nav as a last resort */
 }
-.masthead nav a{text-decoration:none;color:var(--ink-2)}
+.masthead nav a{
+  text-decoration:none;color:var(--ink-2);
+  white-space:nowrap;   /* wrap between tabs, never inside a tab name */
+}
 .masthead nav a:hover{color:var(--accent)}
 .masthead nav a[aria-current="page"]{
   color:var(--ink);
@@ -466,14 +477,6 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
 /* --------------------------------------------------------------------------
    13. Breakpoints. Two, and that is all.
    -------------------------------------------------------------------------- */
-@media (max-width:44rem){          /* 704px: the masthead wraps.
-     Four nav items plus the toggle measure ~337px, and the wordmark ~202px.
-     Past this width they no longer sit on one line, so let the nav drop
-     below the wordmark and wrap internally rather than scroll the page
-     sideways. */
-  .masthead__in{flex-wrap:wrap;row-gap:var(--s3)}
-  .masthead nav{white-space:normal}
-}
 @media (max-width:54rem){          /* 864px: the rail collapses */
   .row{grid-template-columns:minmax(0,1fr)}
   .row > *{grid-column:1}
