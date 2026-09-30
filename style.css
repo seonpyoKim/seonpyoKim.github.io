@@ -55,6 +55,7 @@
   --rail-gap: 2rem;    /*  32px */
   --measure:  39rem;   /* 624px, about 72 characters at 17px */
   --wrap:     50rem;   /* 800px = 9 + 2 + 39 */
+  --side-w:   11rem;   /* 176px sidebar from 64rem up = 2 gutter + 9 rail */
 
   /* type scale */
   --fs-mono-xs: .6875rem;  /* 11px  rail labels, year, colophon, figcaption */
@@ -178,7 +179,9 @@ h1,h2,h3{font-weight:inherit;margin:0}
 time{font-variant-numeric:tabular-nums}
 
 /* --------------------------------------------------------------------------
-   5. Masthead. A journal running head, not an app bar. Never sticky.
+   5. Masthead. Below 64rem, a journal running head: not an app bar, never
+      sticky. From 64rem up the same markup becomes a left-hand sidebar that
+      stays in view while the page scrolls (see section 13).
    -------------------------------------------------------------------------- */
 .masthead{border-bottom:1px solid var(--rule-2)}
 .masthead__in{
@@ -475,8 +478,33 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
 :root[data-theme="dark"] .spin.s7{fill:#D99BF5}
 
 /* --------------------------------------------------------------------------
-   13. Breakpoints. Two, and that is all.
+   13. Breakpoints. Three, and that is all.
    -------------------------------------------------------------------------- */
+@media screen and (min-width:64rem){   /* 1024px: the masthead becomes a sidebar.
+                                          Sidebar and page are centred as one
+                                          block, so the menu sits beside the
+                                          text rather than at the window edge. */
+  body{
+    display:grid;
+    grid-template-columns:var(--side-w) minmax(0,var(--wrap));
+    justify-content:center;
+  }
+  .masthead{grid-column:1;grid-row:1 / span 2;border-bottom:0}
+  main.wrap{grid-column:2;grid-row:1;margin-inline:0}   /* auto margins would
+                  shrink a grid item to its content: a short page would narrow */
+  .colophon{grid-column:2;grid-row:2}
+  .masthead__in{
+    position:sticky;top:0;
+    flex-direction:column;align-items:flex-start;justify-content:flex-start;
+    flex-wrap:nowrap;gap:var(--s6);
+    max-width:none;margin:0;
+    padding:var(--s8) 0 var(--s6) var(--s6);   /* top matches .titleblock */
+  }
+  .wordmark{flex-direction:column;align-items:flex-start}
+  .masthead nav{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s3)}
+  .masthead .sep{display:none}
+  .masthead .theme{margin-top:var(--s4)}
+}
 @media (max-width:54rem){          /* 864px: the rail collapses */
   .row{grid-template-columns:minmax(0,1fr)}
   .row > *{grid-column:1}
