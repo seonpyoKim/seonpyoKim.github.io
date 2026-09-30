@@ -4,7 +4,7 @@
 
    The page is set like an arXiv abstract: a serif text column with a
    right-flush monospace metadata rail. Its only ornament is a
-   chiral spin spiral, drawn as arrows and coloured by rotation angle.
+   tensor network, drawn as circles and lines.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -39,7 +39,7 @@
   --s1: .25rem;   /*   4px */
   --s2: .5rem;    /*   8px */
   --s3: .75rem;   /*  12px */
-  --s4: 1rem;     /*  16px — also the spin spacing in the ornament */
+  --s4: 1rem;     /*  16px — also the tensor spacing in the ornament */
   --s5: 1.5rem;   /*  24px */
   --s6: 2rem;     /*  32px */
   --s7: 3rem;     /*  48px */
@@ -441,41 +441,33 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
 }
 
 /* --------------------------------------------------------------------------
-   12. The motif. A chiral spin spiral, drawn as arrows: one per spin.
+   12. The motif. A tensor network, in the diagram notation of the
+       literature: each circle is a tensor, a line joining two circles is a
+       bond index contracted between them, and a line with a free end is a
+       physical index.
 
-       Hue encodes the spin's rotation angle on a cyclic OKLCH ramp at
-       CONSTANT lightness (L=0.60 light, L=0.78 dark), so the colour is the
-       physics — the same convention used for spin textures in the
-       literature — and no single direction reads louder than the rest.
-       Every stop clears 3.6:1 against its ground, so the ornament reads as
-       ink rather than as a wash. Arrow DIRECTION carries the same
-       information as hue, so nothing is lost without colour.
+       .mps     an infinite, translation-invariant matrix product state, one
+                tensor every 16px. Both ends fade out: the chain does not
+                end, and no tensor is ever shown cut in half at the edge.
+       .mark    a five-site MPS with open ends, in the masthead. The filled
+                tensor is its orthogonality centre.
+       .plate__lattice   a PEPS, the same network in two dimensions,
+                visible only if the photo is gone
 
-       .spiral  a cycloidal spiral, one full turn per 128px (8 spins x 16px)
-       .mark    a 180-degree Neel domain wall, in the masthead
-       .plate__lattice   a skyrmion lattice, visible only if the photo is gone
+       Everything is stroked in currentColor, so the ornament follows the
+       theme with no palette of its own. The accent marks the one tensor
+       that is physically distinguished, and nothing else. The color=""
+       attribute on each <svg> is only a fallback for when this file fails
+       to load; any rule here outranks it.
    -------------------------------------------------------------------------- */
-.spiral{display:block;width:100%;height:20px;margin-block:var(--s8)}
-
-.spin.s0{fill:#DA347B}
-.spin.s1{fill:#C55F2A}
-.spin.s2{fill:#987D2B}
-.spin.s3{fill:#56932C}
-.spin.s4{fill:#319282}
-.spin.s5{fill:#308CAC}
-.spin.s6{fill:#5774ED}
-.spin.s7{fill:#B638E4}
-.core{fill:var(--ink)}
-
-/* dark ramp: same hues, lifted lightness for the dark ground */
-:root[data-theme="dark"] .spin.s0{fill:#F696B4}
-:root[data-theme="dark"] .spin.s1{fill:#F69F77}
-:root[data-theme="dark"] .spin.s2{fill:#D9B341}
-:root[data-theme="dark"] .spin.s3{fill:#7DD142}
-:root[data-theme="dark"] .spin.s4{fill:#4AD0BA}
-:root[data-theme="dark"] .spin.s5{fill:#48C8F4}
-:root[data-theme="dark"] .spin.s6{fill:#A0B5F5}
-:root[data-theme="dark"] .spin.s7{fill:#D99BF5}
+.mps{
+  display:block;width:100%;height:20px;margin-block:var(--s8);
+  color:var(--rule-2);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--s7),#000 calc(100% - var(--s7)),transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 var(--s7),#000 calc(100% - var(--s7)),transparent);
+}
+.mark{color:var(--ink-2)}
+.mark .oc{fill:var(--accent);stroke:var(--accent)}
 
 /* --------------------------------------------------------------------------
    13. Breakpoints. Three, and that is all.
@@ -515,7 +507,7 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
   .titleblock > .rail{border-top:0;padding-top:0;margin-bottom:var(--s5)}
   .titleblock{padding-top:var(--s6)}
   .row + .row{margin-top:var(--s6)}
-  .plate{width:7rem}               /* 112px = exactly 7 pattern tiles */
+  .plate{width:7rem}               /* 112px */
   .plate-fig figcaption{text-align:left;max-width:7rem;margin-left:0}
 }
 @media (max-width:30rem){          /* 480px: type steps down */
@@ -524,7 +516,7 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
   dl.links dt{margin-top:var(--s3)}
   dl.history{grid-template-columns:minmax(0,1fr);row-gap:0}
   dl.history dt{margin-top:var(--s3)}
-  .spiral{margin-block:var(--s7)}
+  .mps{margin-block:var(--s7)}
 }
 
 /* --------------------------------------------------------------------------
@@ -547,7 +539,7 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
     --paper:#fff;--paper-2:#fff;--ink:#000;--ink-2:#333;
     --rule:#bbb;--rule-2:#888;--accent:#000;--accent-wash:#fff;
   }
-  .masthead nav,.masthead .theme,.skip,.spiral,.mark{display:none}
+  .masthead nav,.masthead .theme,.skip,.mps,.mark{display:none}
   body{font-size:10.5pt;line-height:1.45;background:#fff}
   .wrap{max-width:none;padding-inline:0}
   a{text-decoration:none;color:#000}
