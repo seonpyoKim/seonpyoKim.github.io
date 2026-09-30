@@ -204,7 +204,8 @@ time{font-variant-numeric:tabular-nums}
 }
 .wordmark .mark{display:block;flex:none}
 .masthead nav{
-  font:500 var(--fs-mono-xs)/1 var(--mono);
+  font:500 var(--fs-mono-xs)/2.2 var(--mono);   /* room for the current-page
+                  underline when the menu wraps to a second line on a phone */
   letter-spacing:var(--track-caps);text-transform:uppercase;
   white-space:normal;   /* wrap within the nav as a last resort */
 }
@@ -494,7 +495,7 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
     padding:var(--s8) 0 var(--s6) var(--s6);   /* top matches .titleblock */
   }
   .wordmark{flex-direction:column;align-items:flex-start}
-  .masthead nav{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s3)}
+  .masthead nav{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s3);line-height:1}
   .masthead .sep{display:none}
   .masthead .theme{margin-top:var(--s4)}
 }
