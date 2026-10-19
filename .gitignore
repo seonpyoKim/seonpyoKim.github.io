@@ -4,3 +4,13 @@
 # at the repo root is a resized copy with all metadata stripped.
 # Delete this line only if you have stripped the original's metadata too.
 Images/
+
+# By-products of compiling the CV with xelatex or latexmk. Only CV/cv.tex
+# and the compiled CV/cv.pdf are tracked; Tectonic leaves none of these.
+CV/*.aux
+CV/*.log
+CV/*.out
+CV/*.fls
+CV/*.fdb_latexmk
+CV/*.synctex.gz
+CV/*.xdv
