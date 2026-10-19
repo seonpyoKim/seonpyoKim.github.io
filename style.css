@@ -221,6 +221,16 @@ time{font-variant-numeric:tabular-nums}
   text-decoration-thickness:2px;
   text-underline-offset:.4em;
 }
+/* A nav entry that downloads a file rather than opening a page (the CV)
+   keeps a standing underline: thin and grey, so it never reads as the
+   2px accent underline of the current page. */
+.masthead nav a[download]{
+  text-decoration:underline;
+  text-decoration-color:var(--rule-2);
+  text-decoration-thickness:1px;
+  text-underline-offset:.4em;
+}
+.masthead nav a[download]:hover{text-decoration-color:var(--accent)}
 .masthead .sep{color:var(--rule-2);margin-inline:var(--s2)}
 
 /* Theme toggle. A word, not an icon — the same register as the nav links.
